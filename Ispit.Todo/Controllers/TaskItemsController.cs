@@ -57,24 +57,25 @@ namespace Ispit.Todo.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("Id,Title,Description,IsCompleted,Created, UserId")] TaskItem taskItem)
 		{
-			//var user = await _userManager.GetUserAsync(User);
-			//taskItem.User = user;
+			var user = await _userManager.GetUserAsync(User);
+
 			if (ModelState.IsValid)
 			{
-				//// provjera je li lista nula, ako je kreira novu
-				//if (user.TodoList == null)
-				//{
-				//	user.TodoList = new TodoList();
-				//	_context.TodoList.Add(user.TodoList);
-				//}
+				// provjera je li lista nula, ako je kreira novu
+				if (user.TodoList == null)
+				{
+					user.TodoList = new TodoList();
+					_context.TodoList.Add(user.TodoList);
+				}
 
-				//// dodaje zadatak listi
-				//user.TodoList.TaskItem.Add(taskItem);
+				// dodaje zadatak listi
+				user.TodoList.TaskItem.Add(taskItem);
+				user.TodoList.UserId = taskItem.UserId!;
+				user.TaskItem.Add(taskItem);
 
 				//// Update korisnika
-				//_context.Entry(user).State = EntityState.Modified;
-				taskItem.TodoList = new TodoList();
-				_context.Add(taskItem);
+				_context.Entry(user).State = EntityState.Modified;
+
 				// sprema promjene
 				await _context.SaveChangesAsync();
 
@@ -180,6 +181,13 @@ namespace Ispit.Todo.Controllers
 		private bool TaskItemExists(int id)
 		{
 			return (_context.TaskItem?.Any(e => e.Id == id)).GetValueOrDefault();
+		}
+		[HttpPost]
+		public IActionResult HideMe([FromBody] bool isChecked)
+		{
+			// Do something with isChecked
+
+			return Json(new { success = true });
 		}
 	}
 }

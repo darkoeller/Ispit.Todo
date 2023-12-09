@@ -2,8 +2,7 @@
 @model Ispit.Todo.ViewModels.UpdateUserViewModel
 
 
-
-<h2>Uredite svoje osobne podatke</h2>
+<h2>Uredite svoje osobne podatke @Model.Ime</h2>
 <hr/>
 <div class="row">
 	<div class="col-md-8">
@@ -38,11 +37,69 @@
 		</form>
 	</div>
 </div>
-<hr class="border border-danger border-2 opacity-50" />
-<h2>@Model.Ime</h2>
+<hr class="border border-danger border-2 opacity-50"/>
 
 
-@foreach(var task in Model.TaskItems)
-{
-	<p>@task.Title</p>
+@{
+	System.Diagnostics.Debug.Assert(Model.TaskItems != null, "Model.TaskItems != null");
+}
+<table class="table">
+	<thead>
+	<tr>
+		<th>
+			<h6>NAZIV ZADATKA</h6>
+		</th>
+		<th>
+			<h6>IZRAĐENO DANA</h6>
+		</th>
+		<th>
+			<h6>STATUS</h6>
+		</th>
+
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model.TaskItems)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Title)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Created)
+			</td>
+			<td>
+				<div class=" form-check">
+					<label class="form-check-label">
+						Zadatak dovršen?
+						<input input class="form-check-input" type="checkbox" value="" id="myCheckbox" />
+					</label>
+				</div>
+			</td>
+			<td>
+
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>
+
+@section Scripts {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#myCheckbox').change(function () {
+				if (this.checked) {
+					$.ajax({
+						url: '/TaskItems/HideMe',
+						type: 'POST',
+						data: { isChecked: this.checked },
+						success: function (response) {
+							// Handle the response from the server
+						}
+					});
+				}
+			});
+		});
+	</script>
 }
