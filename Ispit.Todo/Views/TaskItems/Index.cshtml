@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Ispit.Todo.Models.TaskItem>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Lista vaših zadataka</h1>
+
+<p>
+	<a asp-action="Create">Napravi novi</a>
+</p>
+<table class="table">
+	<thead>
+	<tr>
+		<th>
+			<h6>NAZIV ZADATKA</h6>
+		</th>
+		<th>
+			<h6>KRATAK OPIS ZADATKA</h6>
+		</th>
+		<th>
+			<h6>DOVRŠENO?</h6>
+		</th>
+		<th>
+				<h6>IZRAĐENO DANA</h6>
+		</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Title)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Description)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.IsCompleted)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Created)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Uredi</a> |
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-warning">Detalji</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Obriši</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

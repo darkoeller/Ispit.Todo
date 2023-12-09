@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<AspNetUser> SignInManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+	<li class="nav-item">
+		<div class="dropdown">
+			<a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" href="#">
+				Vaši zadaci
+			</a>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" asp-controller="TaskItems" asp-action="Index">Lista zadataka</a>
+				<a class="dropdown-item" asp-controller="TaskItems" asp-action="Create">Novi zadatak</a>
+				<div class="dropdown-divider"></div>
+			</div>
+		</div>
+	</li>
+}

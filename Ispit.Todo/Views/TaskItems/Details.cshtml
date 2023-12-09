@@ -1,0 +1,42 @@
+﻿@model Ispit.Todo.Models.TaskItem
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<h1>Detalji</h1>
+
+<div>
+	<h4>Zadatak</h4>
+	<hr/>
+	<dl class="row">
+		<dt class="col-sm-2">
+			Naziv zadatka:
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Title)
+		</dd>
+		<dt class="col-sm-2">
+			Opis zadatka:
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+		<dt class="col-sm-2">
+			Jeli dovršen zadatak:
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.IsCompleted)
+		</dd>
+		<dt class="col-sm-2">
+			Datum stvaranja zadatka:
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Created)
+		</dd>
+	</dl>
+</div>
+<div>
+	<a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Uredi</a> |
+	<a asp-action="Index" class="btn btn-outline-warning">Natrag na listu</a>
+</div>
