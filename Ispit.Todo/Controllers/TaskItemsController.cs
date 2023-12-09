@@ -46,7 +46,8 @@ namespace Ispit.Todo.Controllers
 		// GET: TaskItems/Create
 		public IActionResult Create()
 		{
-			return View();
+			var model = new TaskItem();
+			return View(model);
 		}
 
 		// POST: TaskItems/Create
@@ -54,24 +55,26 @@ namespace Ispit.Todo.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Title,Description,IsCompleted,Created")] TaskItem taskItem)
+		public async Task<IActionResult> Create([Bind("Id,Title,Description,IsCompleted,Created, UserId")] TaskItem taskItem)
 		{
-			var user = await _userManager.GetUserAsync(User);
+			//var user = await _userManager.GetUserAsync(User);
+			//taskItem.User = user;
 			if (ModelState.IsValid)
 			{
-				// provjera je li lista nula, ako je kreira novu
-				if (user.TodoList == null)
-				{
-					user.TodoList = new TodoList();
-					_context.TodoList.Add(user.TodoList);
-				}
+				//// provjera je li lista nula, ako je kreira novu
+				//if (user.TodoList == null)
+				//{
+				//	user.TodoList = new TodoList();
+				//	_context.TodoList.Add(user.TodoList);
+				//}
 
-				// dodaje zadatak listi
-				user.TodoList.TaskItem.Add(taskItem);
+				//// dodaje zadatak listi
+				//user.TodoList.TaskItem.Add(taskItem);
 
-				// Update korisnika
-				_context.Entry(user).State = EntityState.Modified;
-
+				//// Update korisnika
+				//_context.Entry(user).State = EntityState.Modified;
+				taskItem.TodoList = new TodoList();
+				_context.Add(taskItem);
 				// sprema promjene
 				await _context.SaveChangesAsync();
 
@@ -104,7 +107,7 @@ namespace Ispit.Todo.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id,
-			[Bind("Id,Title,Description,IsCompleted,Created")] TaskItem taskItem)
+			[Bind("Id,Title,Description,IsCompleted,Created,UserId")] TaskItem taskItem)
 		{
 			if (id != taskItem.Id)
 			{

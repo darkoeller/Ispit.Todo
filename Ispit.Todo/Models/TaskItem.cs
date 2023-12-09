@@ -18,8 +18,8 @@ public class TaskItem
 	public DateTime Created { get; set; } = DateTime.Now;
 
 	[ForeignKey("TodoListId")]
-	public virtual TodoList TodoList { get; set; }
+	public virtual TodoList? TodoList { get; set; }
 
-	public string UserId { get; set; } = string.Empty;
-	public virtual AspNetUser User { get; set; }
+	public string? UserId { get; set; }
+	public virtual AspNetUser? User { get; set; }
 }

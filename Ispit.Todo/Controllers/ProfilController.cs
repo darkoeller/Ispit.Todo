@@ -24,7 +24,6 @@ namespace Ispit.Todo.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-
 			var model = new UpdateUserViewModel();
 			var user = await _userManager.GetUserAsync(User);
 			var tasks = await _context.TaskItem.Where(t => t.UserId == user.Id).ToListAsync();
@@ -35,7 +34,6 @@ namespace Ispit.Todo.Controllers
 			model.Grad = user.Grad;
 			model.PostanskiBroj = user.PostanskiBroj;
 			model.Drzava = user.Drzava;
-			model.TaskItems = user.TaskItem.ToList();
 			model.TaskItems = tasks;
 			return View(model);
 		}

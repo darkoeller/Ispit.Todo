@@ -1,7 +1,12 @@
-﻿@model Ispit.Todo.Models.TaskItem
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Ispit.Todo.Models.TaskItem
 
 @{
 	ViewData["Title"] = "Create";
+	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	Model.UserId = userId;
+	
 }
 
 <h1>Kreiraj</h1>

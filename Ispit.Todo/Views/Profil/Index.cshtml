@@ -39,4 +39,10 @@
 	</div>
 </div>
 <hr class="border border-danger border-2 opacity-50" />
-<partial name="_ToDoLista" for="TaskItems"/>
+<h2>@Model.Ime</h2>
+
+
+@foreach(var task in Model.TaskItems)
+{
+	<p>@task.Title</p>
+}
