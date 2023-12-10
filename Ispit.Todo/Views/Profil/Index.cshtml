@@ -38,11 +38,10 @@
 	</div>
 </div>
 <hr class="border border-danger border-2 opacity-50"/>
-
-
 @{
 	System.Diagnostics.Debug.Assert(Model.TaskItems != null, "Model.TaskItems != null");
 }
+
 <table class="table">
 	<thead>
 	<tr>
@@ -76,12 +75,11 @@
 					<div class=" form-check">
 						<label class="form-check-label">
 							Zadatak dovršen?
-							<input input class="form-check-input" type="checkbox" value="" id="myCheckbox" data-task-id ="@item.Id"/>
+							<input input class="form-check-input" type="checkbox" value="" id="myCheckbox" data-task-id="@item.Id"/>
 						</label>
 					</div>
 				</td>
 				<td>
-					@* <button asp-route-Id="@item.IsCompleted"  asp-action="HideMe" asp-controller="TaskItems" class="btn btn-primary" disabled="disabled">Gotovo</button> *@
 				</td>
 			</tr>
 		}
