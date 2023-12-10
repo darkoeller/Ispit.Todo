@@ -62,44 +62,29 @@
 	<tbody>
 	@foreach (var item in Model.TaskItems)
 	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Title)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Created)
-			</td>
-			<td>
-				<div class=" form-check">
-					<label class="form-check-label">
-						Zadatak dovršen?
-						<input input class="form-check-input" type="checkbox" value="" id="myCheckbox" />
-					</label>
-				</div>
-			</td>
-			<td>
-
-			</td>
-		</tr>
+		var isCompleted = ViewBag.TaskStatus as bool?;
+		if (!isCompleted.HasValue || !isCompleted.Value)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Created)
+				</td>
+				<td>
+					<div class=" form-check">
+						<label class="form-check-label">
+							Zadatak dovršen?
+							<input input class="form-check-input" type="checkbox" value="" id="myCheckbox" data-task-id ="@item.Id"/>
+						</label>
+					</div>
+				</td>
+				<td>
+					@* <button asp-route-Id="@item.IsCompleted"  asp-action="HideMe" asp-controller="TaskItems" class="btn btn-primary" disabled="disabled">Gotovo</button> *@
+				</td>
+			</tr>
+		}
 	}
 	</tbody>
 </table>
-
-@section Scripts {
-	<script type="text/javascript">
-		$(document).ready(function () {
-			$('#myCheckbox').change(function () {
-				if (this.checked) {
-					$.ajax({
-						url: '/TaskItems/HideMe',
-						type: 'POST',
-						data: { isChecked: this.checked },
-						success: function (response) {
-							// Handle the response from the server
-						}
-					});
-				}
-			});
-		});
-	</script>
-}

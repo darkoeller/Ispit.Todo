@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Ispit.Todo.Controllers
 {
 	[Authorize]
+
 	public class ProfilController : Controller
 	{
 		private readonly UserManager<AspNetUser> _userManager;
-		//private readonly SignInManager<AspNetUser> _signInManager;
 		private readonly ApplicationDbContext _context;
 
 		public ProfilController(UserManager<AspNetUser> userManager, ApplicationDbContext context)
 		{
 			_userManager = userManager;
-			//_signInManager = signInManager;
 			_context = context;
 		}
 		[HttpGet]

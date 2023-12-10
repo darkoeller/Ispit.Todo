@@ -20,8 +20,9 @@ namespace Ispit.Todo.Controllers
 		// GET: TaskItems
 		public async Task<IActionResult> Index()
 		{
+			var user = await _userManager.GetUserAsync(User);
 			return _context.TaskItem != null
-				? View(await _context.TaskItem.ToListAsync())
+				? View(await _context.TaskItem.Where(t => t.UserId == user.Id).ToListAsync())
 				: Problem("Entity set 'ApplicationDbContext.TaskItem'  is null.");
 		}
 
@@ -182,12 +183,26 @@ namespace Ispit.Todo.Controllers
 		{
 			return (_context.TaskItem?.Any(e => e.Id == id)).GetValueOrDefault();
 		}
-		[HttpPost]
-		public IActionResult HideMe([FromBody] bool isChecked)
-		{
-			// Do something with isChecked
 
-			return Json(new { success = true });
+		[HttpPost]
+		public IActionResult UpdateTaskStatus(int id)
+		{
+			// dohvaća zadatak iz baze kroz Id
+			var task = _context.TaskItem.Find(id);
+			if (task != null)
+			{
+				// mijenja status
+				task.IsCompleted = !task.IsCompleted;
+
+				// sprema promjene
+				_context.SaveChanges();
+
+				// sprema zadatak u ViewBag
+				ViewBag.TaskStatus = task.IsCompleted;
+			}
+
+			return RedirectToAction("Index"); // Redirect to the list view
 		}
+
 	}
 }

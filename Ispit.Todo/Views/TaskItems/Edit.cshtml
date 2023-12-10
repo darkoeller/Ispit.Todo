@@ -1,7 +1,11 @@
-﻿@model Ispit.Todo.Models.TaskItem
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Ispit.Todo.Models.TaskItem
 
 @{
 	ViewData["Title"] = "Edit";
+	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+	Model.UserId = userId;
 }
 
 <h1>Uredi</h1>
@@ -18,18 +22,14 @@
 				<input asp-for="Title" class="form-control"/>
 				<span asp-validation-for="Title" class="text-danger"></span>
 			</div>
-
-
 			<div class="mb-3">
 				<label asp-for="Description" class="form-label">Kratak opis</label>
 				<textarea asp-for="Description" class="form-control" rows="5"></textarea>
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
-
-
 			<div class="form-group form-check">
 				<label class="form-check-label">Zadatak dovršen?
-					<input class="form-check-input" asp-for="IsCompleted"/>
+					<input class="form-check-input" asp-for="IsCompleted" disabled/>
 				</label>
 			</div>
 			<div class="form-group">
@@ -37,6 +37,7 @@
 				<input asp-for="Created" class="form-control"/>
 				<span asp-validation-for="Created" class="text-danger"></span>
 			</div>
+			<input hidden asp-for="@Model.UserId" />
 			<div class="form-group">
 				<input type="submit" value="Spremi" class="btn btn-primary"/>
 			</div>

@@ -31,10 +31,13 @@ builder.Services.AddSingleton<AspNetUser>();
 builder.Services.AddTransient<TodoList>();
 builder.Services.AddTransient<TaskItem>();
 
-//builder.Services.AddIdentity<AspNetUser, IdentityRole>()
-//	.AddEntityFrameworkStores<ApplicationDbContext>()
-//	.AddDefaultTokenProviders();
-//builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -54,6 +57,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
