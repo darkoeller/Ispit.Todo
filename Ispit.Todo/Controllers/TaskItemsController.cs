@@ -185,23 +185,24 @@ namespace Ispit.Todo.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult UpdateTaskStatus(int id)
+		public async Task<IActionResult> UpdateTaskStatus(int id)
 		{
 			// dohvaća zadatak iz baze kroz Id
-			var task = _context.TaskItem.Find(id);
+			var task = await _context.TaskItem.FindAsync(id);
 			if (task != null)
 			{
+				_context.Remove(task);
+				await _context.SaveChangesAsync();
 				// mijenja status
-				task.IsCompleted = !task.IsCompleted;
-
+				//task.IsCompleted = !task.IsCompleted;
 				// sprema promjene
-				_context.SaveChanges();
-
+				//_context.SaveChanges();
 				// sprema zadatak u ViewBag
-				ViewBag.TaskStatus = task.IsCompleted;
+				//ViewBag.TaskStatus = task.IsCompleted;
+				return RedirectToAction(nameof(Index));
 			}
 
-			return RedirectToAction("Index"); // Redirect to the list view
+			return RedirectToAction("Index");
 		}
 
 	}
