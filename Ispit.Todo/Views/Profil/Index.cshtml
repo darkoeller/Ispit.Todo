@@ -41,6 +41,7 @@
 @{
 	System.Diagnostics.Debug.Assert(Model.TaskItems != null, "Model.TaskItems != null");
 }
+<h3 class="mb-4">Ako je vaš zadatak završen, označite pripadni kvadratić</h3>
 
 <table class="table">
 	<thead>
@@ -86,3 +87,8 @@
 	}
 	</tbody>
 </table>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
