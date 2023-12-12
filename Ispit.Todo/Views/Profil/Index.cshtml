@@ -1,11 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Ispit.Todo.ViewModels.UpdateUserViewModel
+@{
+	System.Diagnostics.Debug.Assert(Model.TaskItems != null, "Model.TaskItems != null");
+}
 
-
-<h2>Uredite svoje osobne podatke @Model.Ime</h2>
-<hr/>
 <div class="row">
-	<div class="col-md-8">
+	<h5>Uredite svoje osobne podatke @Model.Ime</h5>
+	<div class="col-md-6">
 		<form method="post" class="form-floating mb-3">
 			<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 			<div class="form-floating">
@@ -42,56 +43,55 @@
 			<button type="submit" class="btn btn-primary" value="Submit" asp-action="UpdateData" asp-controller="Profil">Spremi</button>
 		</form>
 	</div>
+
+	<div class="col-md-6">
+		<h5 class="mb-4">Ako je vaš zadatak završen, označite pripadni kvadratić</h5>
+
+		<table class="table">
+			<thead>
+			<tr>
+				<th>
+					<h6>NAZIV ZADATKA</h6>
+				</th>
+				<th>
+					<h6>IZRAĐENO DANA</h6>
+				</th>
+				<th>
+					<h6>STATUS</h6>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			@foreach (var item in Model.TaskItems)
+			{
+				if (!(ViewBag.TaskStatus is bool isCompleted) || !isCompleted)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Title)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Created)
+						</td>
+						<td>
+							<div class=" form-check">
+								<label class="form-check-label">
+									Zadatak dovršen?
+									<input input class="form-check-input myCheckbox" type="checkbox" value="" id="myCheckbox" data-task-id="@item.Id"/>
+								</label>
+							</div>
+						</td>
+						<td>
+						</td>
+					</tr>
+				}
+			}
+			</tbody>
+		</table>
+	</div>
 </div>
 <hr class="border border-danger border-2 opacity-50"/>
-@{
-	System.Diagnostics.Debug.Assert(Model.TaskItems != null, "Model.TaskItems != null");
-}
-<h3 class="mb-4">Ako je vaš zadatak završen, označite pripadni kvadratić</h3>
 
-<table class="table">
-	<thead>
-	<tr>
-		<th>
-			<h6>NAZIV ZADATKA</h6>
-		</th>
-		<th>
-			<h6>IZRAĐENO DANA</h6>
-		</th>
-		<th>
-			<h6>STATUS</h6>
-		</th>
-
-		<th></th>
-	</tr>
-	</thead>
-	<tbody>
-	@foreach (var item in Model.TaskItems)
-	{
-		if (!(ViewBag.TaskStatus is bool isCompleted) || !isCompleted)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Title)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Created)
-				</td>
-				<td>
-					<div class=" form-check">
-						<label class="form-check-label">
-							Zadatak dovršen?
-								<input input class="form-check-input myCheckbox" type="checkbox" value="" id="myCheckbox" data-task-id="@item.Id" />
-						</label>
-					</div>
-				</td>
-				<td>
-				</td>
-			</tr>
-		}
-	}
-	</tbody>
-</table>
 @section Scripts {
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
