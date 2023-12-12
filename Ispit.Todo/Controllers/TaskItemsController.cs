@@ -199,7 +199,7 @@ namespace Ispit.Todo.Controllers
 				//_context.SaveChanges();
 				// sprema zadatak u ViewBag
 				//ViewBag.TaskStatus = task.IsCompleted;
-				_context.SaveChangesAsync();
+				_context.SaveChanges();
 				//var modeli = new List<TaskItem>();
 				return RedirectToAction("Create", "TaskItems");
 			}
