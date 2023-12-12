@@ -1,9 +1,9 @@
 ﻿$(function () {
-  $('#myCheckbox').on('change',function () {
+  window.$('#myCheckbox').on("change",function () {
     if (this.checked) {
-      var taskId = $(this).data('task-id');
-      $('#myCheckbox').hide();
-      $.post('/TaskItems/UpdateTaskStatus', { id: taskId }, function (data) {
+      var taskId = window.$(this).data('task-id');
+      window.$("#myCheckbox").hide();
+      window.$.post("/TaskItems/UpdateTaskStatus", { id: taskId }, function (data) {
        
       });
     }

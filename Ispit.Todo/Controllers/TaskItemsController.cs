@@ -185,10 +185,11 @@ namespace Ispit.Todo.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> UpdateTaskStatus(int id)
+		public IActionResult UpdateTaskStatus(int id)
 		{
 			// dohvaća zadatak iz baze kroz Id
-			var task = await _context.TaskItem.FindAsync(id);
+			var task = _context.TaskItem.Find(id);
+
 			if (task != null)
 			{
 				_context.Remove(task);
@@ -198,14 +199,22 @@ namespace Ispit.Todo.Controllers
 				//_context.SaveChanges();
 				// sprema zadatak u ViewBag
 				//ViewBag.TaskStatus = task.IsCompleted;
-				await _context.SaveChangesAsync();
-
-				return RedirectToAction("Index", "TaskItems");
+				_context.SaveChangesAsync();
+				//var modeli = new List<TaskItem>();
+				return RedirectToAction("Create", "TaskItems");
 			}
 
 			return RedirectToAction("Index", "TaskItems");
 		}
 
 
+		public IActionResult Status(int id)
+		{
+			var user = _userManager.GetUserId(User);
+			var task = _context.TaskItem.Find(id);
+			task!.IsCompleted = !task.IsCompleted;
+			_context.SaveChanges();
+			return RedirectToAction("Index", "TaskItems");
+		}
 	}
 }
