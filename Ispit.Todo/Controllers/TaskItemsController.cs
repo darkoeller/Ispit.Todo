@@ -209,7 +209,7 @@ namespace Ispit.Todo.Controllers
 
 		public IActionResult Status(int id)
 		{
-			var user = _userManager.GetUserId(User);
+			//var user = _userManager.GetUserId(User);
 			var task = _context.TaskItem.Find(id);
 			task!.IsCompleted = !task.IsCompleted;
 			_context.SaveChanges();
