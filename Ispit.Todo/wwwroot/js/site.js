@@ -4,7 +4,7 @@
       var taskId = window.$(this).data('task-id');
      // window.$(".myCheckbox").hide();
       window.$.post("/TaskItems/UpdateTaskStatus", { id: taskId }, function (data) {
-       
+        window.location.href = data;
       });
     }
   });

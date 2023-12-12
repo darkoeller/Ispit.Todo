@@ -192,19 +192,18 @@ namespace Ispit.Todo.Controllers
 
 			if (task != null)
 			{
-				_context.Remove(task);
 				// mijenja status
-				//task.IsCompleted = !task.IsCompleted;
-				// sprema promjene
-				//_context.SaveChanges();
-				// sprema zadatak u ViewBag
-				//ViewBag.TaskStatus = task.IsCompleted;
-				_context.SaveChanges();
-				//var modeli = new List<TaskItem>();
-				return RedirectToAction("Create", "TaskItems");
+				ViewBag.TaskStatus = task.IsCompleted;
+				task.IsCompleted = !task.IsCompleted;
+				if (task.IsCompleted == true)
+				{
+					_context.Remove(task);
+					_context.SaveChanges();
+				}
+				return Content(Url.Action("Index", "TaskItems") ?? string.Empty);
 			}
 
-			return RedirectToAction("Index", "TaskItems");
+			return Content(Url.Action("Index", "TaskItems") ?? string.Empty);
 		}
 
 
